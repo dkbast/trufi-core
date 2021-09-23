@@ -123,9 +123,8 @@ class OnlineRepository implements RequestManager {
 
   String _todayMonthDayYear() {
     final today = DateTime.now();
-    return "${today.month.toString().padLeft(2, '0')}-" +
-        "${today.day.toString().padLeft(2, '0')}-" +
-        today.year.toString();
+    return "${"${today.month.toString().padLeft(2, '0')}-"}${"${today.day.toString().padLeft(2, '0')}-"}2019";
+    // today.year.toString();
   }
 
 // TODO link again with localization error
