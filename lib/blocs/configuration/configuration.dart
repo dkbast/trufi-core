@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trufi_core/blocs/configuration/models/animation_configuration.dart';
-import 'package:trufi_core/blocs/configuration/models/attribution.dart';
 import 'package:trufi_core/blocs/configuration/models/language_configuration.dart';
 import 'package:trufi_core/blocs/configuration/models/map_configuration.dart';
 import 'package:trufi_core/blocs/configuration/models/url_collection.dart';
@@ -22,9 +21,6 @@ class Configuration {
 
   /// Contains all Urls that can be configured inside of Trufi
   final UrlCollection urls;
-
-  /// Everyone who is involved creating the application
-  final Attribution attribution;
 
   /// All map related configurations for the Trufi Core
   final MapConfiguration map;
@@ -72,7 +68,6 @@ class Configuration {
     this.animations,
     this.map,
     this.urls,
-    this.attribution,
     this.planItineraryLegBuilder,
   });
 }

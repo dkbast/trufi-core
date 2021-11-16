@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trufi_core/blocs/configuration/configuration.dart';
 import 'package:trufi_core/blocs/configuration/models/animation_configuration.dart';
-import 'package:trufi_core/blocs/configuration/models/attribution.dart';
 import 'package:trufi_core/blocs/configuration/models/language_configuration.dart';
 import 'package:trufi_core/blocs/configuration/models/map_configuration.dart';
 import 'package:trufi_core/blocs/configuration/models/url_collection.dart';
@@ -9,42 +8,6 @@ import 'package:trufi_core/blocs/configuration/models/url_collection.dart';
 import 'package:latlong2/latlong.dart';
 
 Configuration setupExampleConfiguration() {
-  // Attribution
-  final attribution = Attribution(
-    representatives: [
-      "Christoph Hanser",
-      "Samuel Rioja",
-    ],
-    team: [
-      "Andreas Helms",
-      "Annika Bock",
-      "Christian Brückner",
-      "Javier Rocha",
-      "Luz Choque",
-      "Malte Dölker",
-      "Martin Kleppe",
-      "Michael Brückner",
-      "Natalya Blanco",
-      "Neyda Mili",
-      "Raimund Wege",
-    ],
-    translators: [
-      "Gladys Aguilar",
-      "Jeremy Maes",
-      "Gaia Vitali Roscini",
-    ],
-    routes: [
-      "Trufi team",
-      "Guia Cochala team",
-    ],
-    openStreetMap: [
-      "Marco Antonio",
-      "Noémie",
-      "Philipp",
-      "Felix D",
-      "Valor Naram",
-    ],
-  );
 
   // Urls
   final urls = UrlCollection(
@@ -81,7 +44,6 @@ Configuration setupExampleConfiguration() {
   return Configuration(
     customTranslations: customTranslations,
     supportedLanguages: languages,
-    attribution: attribution,
     animations: AnimationConfiguration(),
     map: map,
     urls: urls,
