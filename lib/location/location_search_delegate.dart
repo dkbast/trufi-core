@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
+import 'package:trufi_core/blocs/place_search/place_search_cubit.dart';
 import 'package:trufi_core/blocs/preferences/preferences_cubit.dart';
 import 'package:trufi_core/blocs/search_locations/search_locations_cubit.dart';
 import 'package:trufi_core/blocs/theme_bloc.dart';
@@ -11,7 +12,6 @@ import 'package:trufi_core/repository/exception/fetch_online_exception.dart';
 import 'package:trufi_core/utils/util_icons/icons.dart';
 
 import '../blocs/gps_location/location_provider_cubit.dart';
-import '../blocs/location_search_bloc.dart';
 import '../models/trufi_place.dart';
 import '../pages/choose_location.dart';
 import '../widgets/alerts.dart';
@@ -218,7 +218,7 @@ class _SuggestionList extends StatelessWidget {
             _BuildFutureBuilder(
               title: localization.searchTitleResults,
               future: searchLocationsCubit.fetchLocations(
-                LocationSearchBloc.of(context),
+                context.read<LocationSearchBloc>(),
                 query,
                 correlationId:
                     context.read<PreferencesCubit>().state.correlationId,

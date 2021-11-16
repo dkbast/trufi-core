@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:trufi_core/blocs/app_review_cubit.dart';
 import 'package:trufi_core/blocs/configuration/configuration.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
@@ -12,14 +14,11 @@ import 'package:trufi_core/blocs/theme_bloc.dart';
 import 'package:trufi_core/l10n/material_localization_qu.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
 import 'package:trufi_core/models/enums/server_type.dart';
+import 'package:trufi_core/models/menu/menu_item.dart';
 import 'package:trufi_core/pages/home/setting_payload/setting_panel/setting_panel.dart';
 import 'package:trufi_core/repository/shared_preferences_repository.dart';
 import 'package:trufi_core/services/plan_request/online_graphql_repository/online_graphql_repository.dart';
 import 'package:trufi_core/services/plan_request/request_manager.dart';
-
-import 'package:trufi_core/models/menu/menu_item.dart';
-import './blocs/bloc_provider.dart';
-import './blocs/location_search_bloc.dart';
 import './blocs/preferences/preferences_cubit.dart';
 import './pages/about.dart';
 import './pages/feedback.dart';
@@ -29,6 +28,7 @@ import 'blocs/custom_layer/custom_layers_cubit.dart';
 import 'blocs/gps_location/location_provider_cubit.dart';
 import 'blocs/map_tile_provider/map_tile_provider_cubit.dart';
 import 'blocs/payload_data_plan/payload_data_plan_cubit.dart';
+import 'blocs/place_search/place_search_cubit.dart';
 import 'blocs/search_locations/search_locations_cubit.dart';
 import 'models/custom_layer.dart';
 import 'models/map_tile_provider.dart';
@@ -83,6 +83,7 @@ class TrufiApp extends StatelessWidget {
     this.menuItems,
     this.routes,
     this.customRequestManager,
+    this.providers = const [],
   })  : assert(configuration != null, "Configuration cannot be empty"),
         assert(theme != null, "Theme cannot be empty"),
         super(key: key);
@@ -126,13 +127,13 @@ class TrufiApp extends StatelessWidget {
   /// Optional extension implement your [customRequestManager]
   /// By default will be used the [OnlineRepository] or [OnlineGraphQLRepository]
   final RequestManager customRequestManager;
-
+  final List<SingleChildWidget> providers;
   @override
   Widget build(BuildContext context) {
     final sharedPreferencesRepository = SharedPreferencesRepository();
     final openTripPlannerUrl = configuration.urls.openTripPlannerUrl;
     final serverType = configuration.serverType;
-    return MultiBlocProvider(
+    return MultiProvider(
       providers: [
         BlocProvider<ConfigurationCubit>(
           create: (context) => ConfigurationCubit(configuration),
@@ -155,6 +156,9 @@ class TrufiApp extends StatelessWidget {
         ),
         BlocProvider<CustomLayersCubit>(
           create: (context) => CustomLayersCubit(customLayers),
+        ),
+        BlocProvider<LocationSearchBloc>(
+          create: (context) => LocationSearchBloc(context),
         ),
         BlocProvider<MapTileProviderCubit>(
           create: (context) => MapTileProviderCubit(
@@ -204,15 +208,13 @@ class TrufiApp extends StatelessWidget {
           ),
           lazy: false,
         ),
+        ...providers,
       ],
-      child: TrufiBlocProvider<LocationSearchBloc>(
-        bloc: LocationSearchBloc(context),
-        child: AppLifecycleReactor(
-          child: LocalizedMaterialApp(
-            customHomePage: customHomePage,
-            routes: routes,
-            menuItems: menuItems,
-          ),
+      child: AppLifecycleReactor(
+        child: LocalizedMaterialApp(
+          customHomePage: customHomePage,
+          routes: routes,
+          menuItems: menuItems,
         ),
       ),
     );

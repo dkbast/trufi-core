@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:trufi_core/blocs/location_search_bloc.dart';
+import 'package:trufi_core/blocs/place_search/place_search_cubit.dart';
 import 'package:trufi_core/location/location_search_storage.dart';
 import 'package:trufi_core/models/trufi_place.dart';
 import 'package:trufi_core/widgets/custom_location_selector.dart';
