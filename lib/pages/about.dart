@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info/package_info.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
+import 'package:trufi_core/models/menu/menu_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/trufi_drawer.dart';
@@ -10,8 +11,12 @@ import '../widgets/trufi_drawer.dart';
 class AboutPage extends StatefulWidget {
   static const String route = "/about";
 
-  const AboutPage({Key key}) : super(key: key);
-
+  const AboutPage({
+    Key key,
+    @required this.menuItems,
+  }) : super(key: key);
+  
+  final List<List<MenuItem>> menuItems;
   @override
   State<StatefulWidget> createState() => AboutPageState();
 }
@@ -22,7 +27,10 @@ class AboutPageState extends State<AboutPage> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(context),
-      drawer: const TrufiDrawer(AboutPage.route),
+      drawer: TrufiDrawer(
+        AboutPage.route,
+        menuItems: widget.menuItems,
+      ),
     );
   }
 
@@ -71,15 +79,16 @@ class AboutPageState extends State<AboutPage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),
                     child: aboutSection(context),
-                  )else
+                  )
+                else
                   Container(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Text(
-                    customTranslations.get(customTranslations.aboutContent,
-                        currentLocale, localization.aboutContent),
-                    style: theme.textTheme.bodyText1,
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Text(
+                      customTranslations.get(customTranslations.aboutContent,
+                          currentLocale, localization.aboutContent),
+                      style: theme.textTheme.bodyText1,
+                    ),
                   ),
-                ),
                 Container(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: ElevatedButton(

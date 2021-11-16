@@ -10,6 +10,7 @@ import 'package:trufi_core/blocs/payload_data_plan/payload_data_plan_cubit.dart'
 import 'package:trufi_core/blocs/preferences/preferences_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
 import 'package:trufi_core/models/enums/server_type.dart';
+import 'package:trufi_core/models/menu/menu_item.dart';
 import 'package:trufi_core/pages/home/plan_map/plan.dart';
 import 'package:trufi_core/pages/home/plan_map/plan_empty.dart';
 import 'package:trufi_core/widgets/fetch_error_handler.dart';
@@ -25,9 +26,12 @@ class HomePage extends StatelessWidget {
   static const String route = '/';
   final LocaleWidgetBuilder customOverlayWidget;
   final WidgetBuilder customBetweenFabWidget;
-
+  final List<List<MenuItem>> menuItems;
   const HomePage(
-      {Key key, this.customOverlayWidget, this.customBetweenFabWidget})
+      {Key key,
+      this.customOverlayWidget,
+      this.customBetweenFabWidget,
+      @required this.menuItems})
       : super(key: key);
 
   @override
@@ -116,7 +120,10 @@ class HomePage extends StatelessWidget {
             Positioned.fill(child: config.animations.loading)
         ],
       ),
-      drawer: const TrufiDrawer(HomePage.route),
+      drawer:  TrufiDrawer(
+        HomePage.route,
+        menuItems: menuItems,
+      ),
     );
   }
 

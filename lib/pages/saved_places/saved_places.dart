@@ -4,6 +4,7 @@ import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
 
 import 'package:trufi_core/blocs/search_locations/search_locations_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
+import 'package:trufi_core/models/menu/menu_item.dart';
 import 'package:trufi_core/pages/saved_places/location_tiler.dart';
 
 import '../../models/trufi_place.dart';
@@ -12,8 +13,8 @@ import '../choose_location.dart';
 
 class SavedPlacesPage extends StatelessWidget {
   static const String route = '/places';
-
-  const SavedPlacesPage({Key key}) : super(key: key);
+  final List<List<MenuItem>> menuItems;
+  const SavedPlacesPage({Key key, @required this.menuItems}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +149,10 @@ class SavedPlacesPage extends StatelessWidget {
           ],
         ),
       ),
-      drawer: const TrufiDrawer(SavedPlacesPage.route),
+      drawer: TrufiDrawer(
+        SavedPlacesPage.route,
+        menuItems: menuItems,
+      ),
     );
   }
 

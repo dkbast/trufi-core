@@ -155,7 +155,6 @@ class TrufiApp extends StatelessWidget {
                     )
                     .languageCode,
               ),
-              menuItems ?? defaultMenuItems,
               configuration.map.center,
               showWeather: configuration.showWeather),
         ),
@@ -217,6 +216,7 @@ class TrufiApp extends StatelessWidget {
           child: LocalizedMaterialApp(
             customHomePage: customHomePage,
             routes: routes,
+            menuItems: menuItems,
           ),
         ),
       ),
@@ -229,17 +229,18 @@ class LocalizedMaterialApp extends StatelessWidget {
     Key key,
     this.customHomePage,
     this.routes,
+    @required this.menuItems,
   }) : super(key: key);
 
   final Widget customHomePage;
   final Map<String, WidgetBuilder> routes;
-
+  final List<List<MenuItem>> menuItems;
   @override
   Widget build(BuildContext context) {
     final routes = <String, WidgetBuilder>{
-      AboutPage.route: (context) => const AboutPage(),
-      FeedbackPage.route: (context) => const FeedbackPage(),
-      SavedPlacesPage.route: (context) => const SavedPlacesPage(),
+      AboutPage.route: (context) => AboutPage(menuItems: menuItems),
+      FeedbackPage.route: (context) => FeedbackPage(menuItems: menuItems),
+      SavedPlacesPage.route: (context) => SavedPlacesPage(menuItems: menuItems),
       SettingPanel.route: (context) => const SettingPanel(),
     };
     routes.addAll(this.routes ?? {});
@@ -263,7 +264,7 @@ class LocalizedMaterialApp extends StatelessWidget {
           ],
           supportedLocales: TrufiLocalization.supportedLocales,
           theme: context.watch<ThemeCubit>().state.activeTheme,
-          home: customHomePage ?? const HomePage(),
+          home: customHomePage ?? HomePage(menuItems: menuItems),
         );
       },
     );

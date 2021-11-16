@@ -4,12 +4,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
 import 'package:trufi_core/blocs/preferences/preferences_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
+import 'package:trufi_core/models/menu/menu_item.dart';
 
 class TrufiDrawer extends StatefulWidget {
-  const TrufiDrawer(this.currentRoute, {Key key}) : super(key: key);
+  const TrufiDrawer(
+    this.currentRoute, {
+    Key key,
+    @required this.menuItems,
+  }) : super(key: key);
 
   final String currentRoute;
-
+  final List<List<MenuItem>> menuItems;
   @override
   TrufiDrawerState createState() => TrufiDrawerState();
 }
@@ -43,7 +48,7 @@ class TrufiDrawerState extends State<TrufiDrawer> {
     final config = context.read<ConfigurationCubit>().state;
     final currentLocale = Localizations.localeOf(context);
     final preferencesCubit = context.read<PreferencesCubit>();
-    final menuItems = preferencesCubit.menuItems;
+    final menuItems = widget.menuItems;
     final weatherInfo = preferencesCubit.state.weatherInfo;
     return Drawer(
       child: ListView(
