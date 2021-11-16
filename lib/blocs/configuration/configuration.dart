@@ -54,9 +54,6 @@ class Configuration {
   /// City where the App is used
   final String appCity;
 
-  /// Development support for verbose state changes
-  final bool debug;
-
   final int minimumReviewWorthyActionCount;
 
 
@@ -67,7 +64,6 @@ class Configuration {
   Configuration({
     this.teamInformationEmail = "",
     this.minimumReviewWorthyActionCount = 3,
-    this.debug = false,
     this.serverType = ServerType.defaultServer,
     this.appCity = "Cochabamba",
     this.supportedLanguages = const [],

@@ -86,6 +86,5 @@ Configuration setupExampleConfiguration() {
     animations: AnimationConfiguration(),
     map: map,
     urls: urls,
-    debug: true,
   );
 }

@@ -16,7 +16,6 @@ import 'package:trufi_core/pages/home/setting_payload/setting_panel/setting_pane
 import 'package:trufi_core/repository/shared_preferences_repository.dart';
 import 'package:trufi_core/services/plan_request/online_graphql_repository/online_graphql_repository.dart';
 import 'package:trufi_core/services/plan_request/request_manager.dart';
-import 'package:trufi_core/trufi_observer.dart';
 
 import 'package:trufi_core/models/menu/menu_item.dart';
 import './blocs/bloc_provider.dart';
@@ -71,7 +70,7 @@ typedef LocaleWidgetBuilder = Widget Function(
 /// ```
 ///
 class TrufiApp extends StatelessWidget {
-  TrufiApp({
+  const TrufiApp({
     @required this.configuration,
     @required this.theme,
     this.searchTheme,
@@ -86,11 +85,7 @@ class TrufiApp extends StatelessWidget {
     this.customRequestManager,
   })  : assert(configuration != null, "Configuration cannot be empty"),
         assert(theme != null, "Theme cannot be empty"),
-        super(key: key) {
-    if (configuration.debug) {
-      Bloc.observer = TrufiObserver();
-    }
-  }
+        super(key: key);
 
   /// Main Configurations for the TrufiCore it contains information about
   /// Feedback, Emails and Contributors.
