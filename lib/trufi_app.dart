@@ -76,8 +76,6 @@ class TrufiApp extends StatelessWidget {
     @required this.theme,
     this.searchTheme,
     this.bottomBarTheme,
-    this.customOverlayBuilder,
-    this.customBetweenFabBuilder,
     this.customHomePage,
     Key key,
     this.customLayers = const [],
@@ -106,14 +104,6 @@ class TrufiApp extends StatelessWidget {
 
   /// The used ThemeData for the BottomBarTheme
   final ThemeData bottomBarTheme;
-
-  /// A [customOverlayBuilder] that receives the current language to allow
-  /// a custom overlay on top of the Trufi Core.
-  final LocaleWidgetBuilder customOverlayBuilder;
-
-  /// The [customBetweenFabBuilder] is [Builder] that allows creating a overlay
-  /// in between the Fab buttons of the Trufi Core.
-  final WidgetBuilder customBetweenFabBuilder;
 
   /// The [customHomePage] is [Widget] that allows creating a custom HomePage
   final Widget customHomePage;
@@ -225,8 +215,6 @@ class TrufiApp extends StatelessWidget {
         bloc: LocationSearchBloc(context),
         child: AppLifecycleReactor(
           child: LocalizedMaterialApp(
-            customOverlayBuilder,
-            customBetweenFabBuilder,
             customHomePage: customHomePage,
             routes: routes,
           ),
@@ -237,16 +225,12 @@ class TrufiApp extends StatelessWidget {
 }
 
 class LocalizedMaterialApp extends StatelessWidget {
-  const LocalizedMaterialApp(
-    this.customOverlayWidget,
-    this.customBetweenFabWidget, {
+  const LocalizedMaterialApp({
     Key key,
     this.customHomePage,
     this.routes,
   }) : super(key: key);
 
-  final LocaleWidgetBuilder customOverlayWidget;
-  final WidgetBuilder customBetweenFabWidget;
   final Widget customHomePage;
   final Map<String, WidgetBuilder> routes;
 
@@ -279,11 +263,7 @@ class LocalizedMaterialApp extends StatelessWidget {
           ],
           supportedLocales: TrufiLocalization.supportedLocales,
           theme: context.watch<ThemeCubit>().state.activeTheme,
-          home: customHomePage ??
-              HomePage(
-                customOverlayWidget: customOverlayWidget,
-                customBetweenFabWidget: customBetweenFabWidget,
-              ),
+          home: customHomePage ?? const HomePage(),
         );
       },
     );

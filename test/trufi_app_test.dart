@@ -57,7 +57,6 @@ void main() {
         ),
       ),
       theme: ThemeData.light(),
-      customBetweenFabBuilder: (context) => const Placeholder(),
     ));
 
     await tester.pumpAndSettle();
@@ -80,8 +79,6 @@ void main() {
         ),
       ),
       theme: ThemeData.light(),
-      customOverlayBuilder: (context, locale) =>
-          Text("${locale.languageCode}_${locale.countryCode}"),
     ));
 
     await tester.pumpAndSettle();
