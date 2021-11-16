@@ -73,7 +73,7 @@ Marker buildBusMarker(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     leg?.route?.shortName ??
-                        (leg?.headSign != null ? ' ${leg.headSign}' : ''),
+                        (leg?.transportName != null ? ' ${leg.transportName}' : ''),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 17,

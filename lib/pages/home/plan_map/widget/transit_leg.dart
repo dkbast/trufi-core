@@ -54,7 +54,7 @@ class TransitLeg extends StatelessWidget {
               : leg.transportMode.getTranslate(localization),
           tripHeadSing: leg.transportMode == TransportMode.carPool
               ? leg.toPlace.name
-              : leg.headSign,
+              : leg.stopStart,
           duration: leg.durationLeg(localization),
           distance: leg.distanceString(localization),
           textContainer: isTypeBikeRentalNetwork

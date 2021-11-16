@@ -256,8 +256,11 @@ class PlanItineraryLeg {
   bool get isLegOnFoot =>
       transportMode == TransportMode.walk || mode == 'BICYCLE_WALK';
 
-  String get headSign {
-    return trip?.tripHeadsign ??
-        (route?.shortName ?? (route?.longName ?? (shortName ?? '')));
+  String get transportName {
+    return route?.shortName ?? (route?.longName ?? (shortName ?? ''));
+  }
+
+  String get stopStart {
+    return trip?.tripHeadsign ?? route?.longName ?? '';
   }
 }

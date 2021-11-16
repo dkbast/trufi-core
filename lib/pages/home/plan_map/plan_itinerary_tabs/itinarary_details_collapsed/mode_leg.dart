@@ -122,8 +122,8 @@ class RouteLeg extends StatelessWidget {
           secondaryIcon: (maxWidth * perc) >= 46 && isRedenderBike
               ? bikeSvg(color: 'FFFFFF')
               : null,
-          text: (maxWidth * perc - 24) >= ((leg?.headSign?.length ?? 100) * 8.5)
-              ? leg?.headSign ?? leg.transportMode.getTranslate(localization)
+          text: (maxWidth * perc - 24) >= ((leg?.transportName?.length ?? 100) * 8.5)
+              ? leg?.transportName ?? leg.transportMode.getTranslate(localization)
               : '',
         ),
       ),
