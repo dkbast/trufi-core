@@ -81,7 +81,6 @@ Configuration setupExampleConfiguration() {
   return Configuration(
     customTranslations: customTranslations,
     supportedLanguages: languages,
-    teamInformationEmail: "info@trufi.app",
     attribution: attribution,
     animations: AnimationConfiguration(),
     map: map,

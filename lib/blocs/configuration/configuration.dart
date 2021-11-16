@@ -13,8 +13,6 @@ import 'package:trufi_core/services/plan_request/online_repository.dart';
 
 /// A collection of all important configurations
 class Configuration {
-  /// Email that is shown inside of the Team Screen
-  final String teamInformationEmail;
 
   /// The Asset Path to the drawerBackgroundImage
   final String drawerBackgroundAssetPath;
@@ -62,7 +60,6 @@ class Configuration {
       planItineraryLegBuilder;
 
   Configuration({
-    this.teamInformationEmail = "",
     this.minimumReviewWorthyActionCount = 3,
     this.serverType = ServerType.defaultServer,
     this.appCity = "Cochabamba",
