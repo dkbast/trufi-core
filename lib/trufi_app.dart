@@ -13,7 +13,6 @@ import 'package:trufi_core/blocs/preferences/preferences.dart';
 import 'package:trufi_core/blocs/theme_bloc.dart';
 import 'package:trufi_core/l10n/material_localization_qu.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
-import 'package:trufi_core/models/enums/server_type.dart';
 import 'package:trufi_core/models/menu/menu_item.dart';
 import 'package:trufi_core/pages/home/setting_payload/setting_panel/setting_panel.dart';
 import 'package:trufi_core/repository/shared_preferences_repository.dart';
@@ -82,7 +81,7 @@ class TrufiApp extends StatelessWidget {
     this.searchLocationManager,
     this.menuItems,
     this.routes,
-    this.customRequestManager,
+    @required this.customRequestManager,
     this.providers = const [],
   })  : assert(configuration != null, "Configuration cannot be empty"),
         assert(theme != null, "Theme cannot be empty"),
@@ -131,8 +130,6 @@ class TrufiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sharedPreferencesRepository = SharedPreferencesRepository();
-    final openTripPlannerUrl = configuration.urls.openTripPlannerUrl;
-    final serverType = configuration.serverType;
     return MultiProvider(
       providers: [
         BlocProvider<ConfigurationCubit>(
@@ -183,14 +180,7 @@ class TrufiApp extends StatelessWidget {
           create: (context) {
             return HomePageCubit(
               sharedPreferencesRepository,
-              customRequestManager ??
-                  (serverType == ServerType.defaultServer
-                      ? OnlineRepository(
-                          otpEndpoint: openTripPlannerUrl,
-                        )
-                      : OnlineGraphQLRepository(
-                          graphQLEndPoint: openTripPlannerUrl,
-                        )),
+              customRequestManager,
             );
           },
         ),
