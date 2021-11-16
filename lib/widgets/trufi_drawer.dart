@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
-import 'package:trufi_core/blocs/preferences/preferences_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
 import 'package:trufi_core/models/menu/menu_item.dart';
 
@@ -47,9 +45,9 @@ class TrufiDrawerState extends State<TrufiDrawer> {
     final localization = TrufiLocalization.of(context);
     final config = context.read<ConfigurationCubit>().state;
     final currentLocale = Localizations.localeOf(context);
-    final preferencesCubit = context.read<PreferencesCubit>();
-    final menuItems = widget.menuItems;
-    final weatherInfo = preferencesCubit.state.weatherInfo;
+    // final preferencesCubit = context.read<PreferencesCubit>();
+    // final menuItems = widget.menuItems;
+    // final weatherInfo = preferencesCubit.state.weatherInfo;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -95,28 +93,28 @@ class TrufiDrawerState extends State<TrufiDrawer> {
                         ],
                       ),
                     ),
-                    if (config.showWeather && weatherInfo != null)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/images/weather/${weatherInfo.weatherSymbol.split(".")[0]}.svg",
-                            package: "trufi_core",
-                            width: 25.0,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            "${weatherInfo.temperature} °C",
-                            style: theme.primaryTextTheme.overline,
-                          ),
-                        ],
-                      )
+                    // if (config.showWeather && weatherInfo != null)
+                    //   Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    //     children: [
+                    //       SvgPicture.asset(
+                    //         "assets/images/weather/${weatherInfo.weatherSymbol.split(".")[0]}.svg",
+                    //         package: "trufi_core",
+                    //         width: 25.0,
+                    //       ),
+                    //       const SizedBox(width: 8),
+                    //       Text(
+                    //         "${weatherInfo.temperature} °C",
+                    //         style: theme.primaryTextTheme.overline,
+                    //       ),
+                    //     ],
+                    //   )
                   ],
                 ),
               ],
             ),
           ),
-          ...menuItems.fold<List<Widget>>(
+          ...widget.menuItems.fold<List<Widget>>(
             [],
             (previousValue, element) => [
               ...previousValue,

@@ -10,7 +10,6 @@ import 'package:trufi_core/entities/ad_entity/ad_entity.dart';
 import 'package:trufi_core/entities/plan_entity/plan_entity.dart';
 import 'package:trufi_core/models/map_route_state.dart';
 import 'package:trufi_core/pages/home/plan_map/plan_map.dart';
-import 'package:trufi_core/trufi_app.dart';
 import 'package:trufi_core/widgets/custom_scrollable_container.dart';
 
 import 'custom_itinerary/custom_itinerary.dart';
@@ -60,14 +59,10 @@ class PlanPageController {
 class PlanPage extends StatefulWidget {
   final PlanEntity plan;
   final AdEntity ad;
-  final LocaleWidgetBuilder customOverlayWidget;
-  final WidgetBuilder customBetweenFabWidget;
 
   const PlanPage(
     this.plan,
-    this.ad,
-    this.customOverlayWidget,
-    this.customBetweenFabWidget, {
+    this.ad, {
     Key key,
   }) : super(key: key);
 
@@ -122,8 +117,6 @@ class CurrentPlanPageState extends State<PlanPage>
               key: Key(
                   'PlanMapPageSSS${state.isFetchEarlier}${state.isFetchLater}${state.isFetchingMore}'),
               planPageController: _planPageController,
-              customOverlayWidget: widget.customOverlayWidget,
-              customBetweenFabWidget: widget.customBetweenFabWidget,
               mapConfiguration: cfg.map,
             ),
             panel: CustomItinerary(

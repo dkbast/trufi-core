@@ -147,16 +147,16 @@ class TrufiApp extends StatelessWidget {
         ),
         BlocProvider<PreferencesCubit>(
           create: (context) => PreferencesCubit(
-              PreferenceState(
-                languageCode: configuration.supportedLanguages
-                    .firstWhere(
-                      (element) => element.isDefault,
-                      orElse: () => LanguageConfiguration("en", "", "English"),
-                    )
-                    .languageCode,
-              ),
-              configuration.map.center,
-              showWeather: configuration.showWeather),
+            PreferenceState(
+              languageCode: configuration.supportedLanguages
+                  .firstWhere(
+                    (element) => element.isDefault,
+                    orElse: () => LanguageConfiguration("en", "", "English"),
+                  )
+                  .languageCode,
+            ),
+            configuration.map.center,
+          ),
         ),
         BlocProvider<CustomLayersCubit>(
           create: (context) => CustomLayersCubit(customLayers),

@@ -17,20 +17,15 @@ import 'package:trufi_core/widgets/fetch_error_handler.dart';
 
 import '../../keys.dart' as keys;
 import '../../models/trufi_place.dart';
-import '../../trufi_app.dart';
 import '../../widgets/trufi_drawer.dart';
 import 'form_fields_landscape.dart';
 import 'form_fields_portrait.dart';
 
 class HomePage extends StatelessWidget {
   static const String route = '/';
-  final LocaleWidgetBuilder customOverlayWidget;
-  final WidgetBuilder customBetweenFabWidget;
   final List<List<MenuItem>> menuItems;
   const HomePage(
       {Key key,
-      this.customOverlayWidget,
-      this.customBetweenFabWidget,
       @required this.menuItems})
       : super(key: key);
 
@@ -104,15 +99,11 @@ class HomePage extends StatelessWidget {
                   ? PlanPage(
                       homePageState.plan,
                       homePageState.ad,
-                      customOverlayWidget,
-                      customBetweenFabWidget,
                     )
                   : PlanEmptyPage(
                       onFetchPlan: () {
                         _callFetchPlan(context);
                       },
-                      customOverlayWidget: customOverlayWidget,
-                      customBetweenFabWidget: customBetweenFabWidget,
                     ),
             ),
           ),

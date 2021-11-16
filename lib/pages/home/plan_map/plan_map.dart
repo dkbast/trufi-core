@@ -8,7 +8,6 @@ import 'package:trufi_core/blocs/configuration/models/map_configuration.dart';
 import 'package:trufi_core/composite_subscription.dart';
 import 'package:trufi_core/entities/plan_entity/plan_entity.dart';
 import 'package:trufi_core/pages/home/plan_map/plan.dart';
-import 'package:trufi_core/trufi_app.dart';
 import 'package:trufi_core/widgets/map/buttons/crop_button.dart';
 import 'package:trufi_core/widgets/map/buttons/map_type_button.dart';
 import 'package:trufi_core/widgets/map/buttons/your_location_button.dart';
@@ -17,22 +16,16 @@ import 'package:trufi_core/widgets/map/trufi_map_controller.dart';
 
 import '../../../widgets/map/utils/trufi_map_utils.dart';
 
-const double customOverlayWidgetMargin = 80.0;
-
 typedef OnSelected = void Function(PlanItinerary itinerary);
 
 class PlanMapPage extends StatefulWidget {
   const PlanMapPage({
     Key key,
-    @required this.customOverlayWidget,
-    @required this.customBetweenFabWidget,
     @required this.mapConfiguration,
     this.planPageController,
   }) : super(key: key);
 
   final PlanPageController planPageController;
-  final LocaleWidgetBuilder customOverlayWidget;
-  final WidgetBuilder customBetweenFabWidget;
   final MapConfiguration mapConfiguration;
 
   @override
@@ -91,7 +84,6 @@ class PlanMapPageState extends State<PlanMapPage>
 
   @override
   Widget build(BuildContext context) {
-    final Locale locale = Localizations.localeOf(context);
 
     final trufiConfiguration = context.read<ConfigurationCubit>().state;
     _mapController.onReady.then((value) {
@@ -148,30 +140,6 @@ class PlanMapPageState extends State<PlanMapPage>
             ],
           ),
         ),
-        Positioned.fill(
-          child: Container(
-            margin: const EdgeInsets.only(
-              right: customOverlayWidgetMargin,
-              bottom: 60,
-            ),
-            child: widget.customOverlayWidget != null
-                ? widget.customOverlayWidget(context, locale)
-                : null,
-          ),
-        ),
-        Positioned.fill(
-          child: Container(
-            margin: EdgeInsets.only(
-              left:
-                  MediaQuery.of(context).size.width - customOverlayWidgetMargin,
-              bottom: 80,
-              top: 65,
-            ),
-            child: widget.customBetweenFabWidget != null
-                ? widget.customBetweenFabWidget(context)
-                : null,
-          ),
-        )
       ],
     );
   }

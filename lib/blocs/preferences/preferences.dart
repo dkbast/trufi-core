@@ -5,12 +5,10 @@ import 'package:trufi_core/repository/entities/weather_info.dart';
 class PreferenceState extends Equatable {
   final String languageCode;
   final String correlationId;
-  final WeatherInfo weatherInfo;
 
   const PreferenceState({
     @required this.languageCode,
     this.correlationId,
-    this.weatherInfo,
   });
 
   PreferenceState copyWith(
@@ -18,15 +16,15 @@ class PreferenceState extends Equatable {
     return PreferenceState(
       languageCode: languageCode ?? this.languageCode,
       correlationId: correlationId ?? this.correlationId,
-      weatherInfo: weatherInfo ?? this.weatherInfo,
+      // weatherInfo: weatherInfo ?? this.weatherInfo,
     );
   }
 
   @override
-  List<Object> get props => [languageCode, correlationId, weatherInfo];
+  List<Object> get props => [languageCode, correlationId];
 
   @override
   String toString() {
-    return "Preference: { languageCode: $languageCode, correlationId: $correlationId, weatherInfo: $weatherInfo }";
+    return "Preference: { languageCode: $languageCode, correlationId: $correlationId }";
   }
 }

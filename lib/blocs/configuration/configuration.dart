@@ -59,8 +59,6 @@ class Configuration {
 
   final int minimumReviewWorthyActionCount;
 
-  /// Show the weather in the drawer from FMI - Finnish Meteorological Institute
-  final bool showWeather;
 
   /// PlanItineraryLeg injection extra option
   final Widget Function(BuildContext context, PlanItineraryLeg planItineraryLeg)
@@ -82,7 +80,6 @@ class Configuration {
     this.map,
     this.urls,
     this.attribution,
-    this.showWeather = true,
     this.planItineraryLegBuilder,
   });
 }

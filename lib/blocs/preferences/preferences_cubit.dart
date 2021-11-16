@@ -6,16 +6,13 @@ import 'package:trufi_core/blocs/preferences/preferences.dart';
 import 'package:trufi_core/repository/entities/weather_info.dart';
 import 'package:trufi_core/repository/local_repository.dart';
 import 'package:trufi_core/repository/shared_preferences_repository.dart';
-import 'package:trufi_core/repository/wfs_weather_data_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class PreferencesCubit extends Cubit<PreferenceState> {
   LocalRepository localRepository = SharedPreferencesRepository();
   final LatLng currentLocation;
-  final bool showWeather;
 
-  PreferencesCubit(PreferenceState initState, this.currentLocation,
-      {this.showWeather})
+  PreferencesCubit(PreferenceState initState, this.currentLocation)
       : super(initState) {
     _load();
   }
@@ -23,11 +20,6 @@ class PreferencesCubit extends Cubit<PreferenceState> {
   Future<void> _load() async {
     String correlationId = await localRepository.getCorrelationId();
     WeatherInfo weatherInfo;
-
-    if (showWeather) {
-      weatherInfo = await WFSWeatherDataRepository()
-          .getCurrentWeatherAtLocation(DateTime.now(), currentLocation);
-    }
 
     // Generate new UUID if missing
     if (correlationId == null) {

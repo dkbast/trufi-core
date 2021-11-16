@@ -87,6 +87,5 @@ Configuration setupExampleConfiguration() {
     map: map,
     urls: urls,
     debug: true,
-    showWeather: false,
   );
 }

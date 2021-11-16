@@ -21,8 +21,9 @@ void main() {
           providers: [
             BlocProvider<PreferencesCubit>(
               create: (context) => PreferencesCubit(
-                  const PreferenceState(languageCode: "en"), LatLng(0, 0),
-                  showWeather: false),
+                const PreferenceState(languageCode: "en"),
+                LatLng(0, 0),
+              ),
             ),
             BlocProvider<ConfigurationCubit>(
               create: (context) => ConfigurationCubit(
@@ -33,7 +34,6 @@ void main() {
                   customTranslations: TrufiCustomLocalizations()
                     ..title = {const Locale("en"): "Test Trufi App"},
                   urls: UrlCollection(),
-                  showWeather: false,
                 ),
               ),
             )
@@ -60,8 +60,9 @@ void main() {
         providers: [
           BlocProvider<PreferencesCubit>(
             create: (context) => PreferencesCubit(
-                const PreferenceState(languageCode: 'de'), LatLng(0, 0),
-                showWeather: false),
+              const PreferenceState(languageCode: 'de'),
+              LatLng(0, 0),
+            ),
           ),
           BlocProvider<ConfigurationCubit>(
             create: (context) => ConfigurationCubit(
@@ -71,7 +72,6 @@ void main() {
                 ],
                 customTranslations: TrufiCustomLocalizations()..title = null,
                 urls: UrlCollection(),
-                showWeather: false,
               ),
             ),
           )

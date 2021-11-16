@@ -109,8 +109,6 @@ class _PlanTransportScrenState extends State<PlanTransportScren>
           openedPosition: 200,
           body: PlanMapPage(
             planPageController: widget.planPageController,
-            customOverlayWidget: null,
-            customBetweenFabWidget: null,
             mapConfiguration: cfg.map,
           ),
           panel: homePageState.isFetching

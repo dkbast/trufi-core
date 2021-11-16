@@ -10,7 +10,6 @@ import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
 import 'package:trufi_core/blocs/panel/panel_cubit.dart';
 import 'package:trufi_core/blocs/search_locations/search_locations_cubit.dart';
 import 'package:trufi_core/models/map_route_state.dart';
-import 'package:trufi_core/trufi_app.dart';
 import 'package:trufi_core/widgets/custom_location_selector.dart';
 import 'package:trufi_core/widgets/custom_scrollable_container.dart';
 import 'package:trufi_core/widgets/map/buttons/map_type_button.dart';
@@ -18,20 +17,14 @@ import 'package:trufi_core/widgets/map/buttons/your_location_button.dart';
 import 'package:trufi_core/widgets/map/trufi_map.dart';
 import 'package:trufi_core/widgets/map/trufi_map_controller.dart';
 
-const double customOverlayWidgetMargin = 80;
-
 class PlanEmptyPage extends StatefulWidget {
   const PlanEmptyPage({
     Key key,
     @required this.onFetchPlan,
     this.initialPosition,
-    this.customOverlayWidget,
-    this.customBetweenFabWidget,
   }) : super(key: key);
 
   final LatLng initialPosition;
-  final LocaleWidgetBuilder customOverlayWidget;
-  final WidgetBuilder customBetweenFabWidget;
   final void Function() onFetchPlan;
 
   @override
@@ -78,7 +71,6 @@ class PlanEmptyPageState extends State<PlanEmptyPage>
 
   @override
   Widget build(BuildContext context) {
-    final Locale locale = Localizations.localeOf(context);
     final cfg = context.read<ConfigurationCubit>().state;
     final panelCubit = context.watch<PanelCubit>();
     final homePageCubit = context.read<HomePageCubit>();
@@ -144,17 +136,6 @@ class PlanEmptyPageState extends State<PlanEmptyPage>
               trufiMapController: _trufiMapController,
             ),
           ),
-          Positioned.fill(
-            child: Container(
-              margin: const EdgeInsets.only(
-                right: customOverlayWidgetMargin,
-                bottom: 60,
-              ),
-              child: widget.customOverlayWidget != null
-                  ? widget.customOverlayWidget(context, locale)
-                  : null,
-            ),
-          ),
           Positioned(
             bottom: 0,
             left: 10,
@@ -162,19 +143,6 @@ class PlanEmptyPageState extends State<PlanEmptyPage>
               child: cfg.map.mapAttributionBuilder(context),
             ),
           ),
-          Positioned.fill(
-            child: Container(
-              margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width -
-                    customOverlayWidgetMargin,
-                bottom: 80,
-                top: 65,
-              ),
-              child: widget.customBetweenFabWidget != null
-                  ? widget.customBetweenFabWidget(context)
-                  : null,
-            ),
-          )
         ],
       ),
       bottomPadding: panelCubit.state.panel?.minSize ?? 0,
