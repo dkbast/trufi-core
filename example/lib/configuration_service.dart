@@ -8,7 +8,6 @@ import 'package:trufi_core/blocs/configuration/models/url_collection.dart';
 import 'package:latlong2/latlong.dart';
 
 Configuration setupExampleConfiguration() {
-
   // Urls
   final urls = UrlCollection(
     openTripPlannerUrl: "https://api.trufi.app/otp/routers/default",
@@ -47,5 +46,9 @@ Configuration setupExampleConfiguration() {
     animations: AnimationConfiguration(),
     map: map,
     urls: urls,
+    // feedbackDefinition: FeedbackDefinition(
+    //   FeedBackType.email,
+    //   "info@trufi.app",
+    // ),
   );
 }

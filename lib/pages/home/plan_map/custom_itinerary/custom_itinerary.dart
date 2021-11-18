@@ -6,7 +6,7 @@ import 'package:trufi_core/blocs/app_review_cubit.dart';
 import 'package:trufi_core/blocs/home_page_cubit.dart';
 import 'package:trufi_core/blocs/payload_data_plan/payload_data_plan_cubit.dart';
 import 'package:trufi_core/blocs/preferences/preferences_cubit.dart';
-import 'package:trufi_core/blocs/theme_bloc.dart';
+import 'package:trufi_core/blocs/theme/theme_bloc.dart';
 import 'package:trufi_core/entities/plan_entity/enum/plan_info_box.dart';
 import 'package:trufi_core/entities/plan_entity/plan_entity.dart';
 import 'package:trufi_core/entities/plan_entity/utils/modes_transport_utils.dart';

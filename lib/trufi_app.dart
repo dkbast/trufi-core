@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:trufi_core/blocs/app_review_cubit.dart';
 import 'package:trufi_core/blocs/configuration/configuration.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
@@ -10,19 +11,14 @@ import 'package:trufi_core/blocs/configuration/models/language_configuration.dar
 import 'package:trufi_core/blocs/home_page_cubit.dart';
 import 'package:trufi_core/blocs/panel/panel_cubit.dart';
 import 'package:trufi_core/blocs/preferences/preferences.dart';
-import 'package:trufi_core/blocs/theme_bloc.dart';
+import 'package:trufi_core/blocs/theme/theme_bloc.dart';
+import 'package:trufi_core/blocs/theme/theme_state.dart';
 import 'package:trufi_core/l10n/material_localization_qu.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
-import 'package:trufi_core/models/menu/menu_item.dart';
-import 'package:trufi_core/pages/home/setting_payload/setting_panel/setting_panel.dart';
 import 'package:trufi_core/repository/shared_preferences_repository.dart';
 import 'package:trufi_core/services/plan_request/online_graphql_repository/online_graphql_repository.dart';
 import 'package:trufi_core/services/plan_request/request_manager.dart';
 import './blocs/preferences/preferences_cubit.dart';
-import './pages/about.dart';
-import './pages/feedback.dart';
-import './pages/saved_places/saved_places.dart';
-import './widgets/trufi_drawer.dart';
 import 'blocs/custom_layer/custom_layers_cubit.dart';
 import 'blocs/gps_location/location_provider_cubit.dart';
 import 'blocs/map_tile_provider/map_tile_provider_cubit.dart';
@@ -31,8 +27,6 @@ import 'blocs/place_search/place_search_cubit.dart';
 import 'blocs/search_locations/search_locations_cubit.dart';
 import 'models/custom_layer.dart';
 import 'models/map_tile_provider.dart';
-import 'pages/app_lifecycle_reactor.dart';
-import 'pages/home/home_page.dart';
 import 'services/plan_request/online_repository.dart';
 import 'services/search_location/offline_search_location.dart';
 import 'services/search_location/search_location_manager.dart';
@@ -71,44 +65,25 @@ typedef LocaleWidgetBuilder = Widget Function(
 class TrufiApp extends StatelessWidget {
   const TrufiApp({
     @required this.configuration,
-    @required this.theme,
-    this.searchTheme,
-    this.bottomBarTheme,
-    this.customHomePage,
     Key key,
     this.customLayers = const [],
     this.mapTileProviders,
     this.searchLocationManager,
-    this.menuItems,
-    this.routes,
     @required this.customRequestManager,
     this.providers = const [],
-  })  : assert(configuration != null, "Configuration cannot be empty"),
-        assert(theme != null, "Theme cannot be empty"),
-        super(key: key);
+    @required this.trufiRoutes,
+    this.theme,
+  }) : super(key: key);
 
   /// Main Configurations for the TrufiCore it contains information about
   /// Feedback, Emails and Contributors.
   final Configuration configuration;
 
-  /// The used [ThemeData] used for the whole Trufi App
-  final ThemeData theme;
-
-  /// The used ThemeData for the SearchDelegate
-  final ThemeData searchTheme;
-
-  /// The used ThemeData for the BottomBarTheme
-  final ThemeData bottomBarTheme;
-
-  /// The [customHomePage] is [Widget] that allows creating a custom HomePage
-  final Widget customHomePage;
+  /// The used [CustomTheme] used for the whole Trufi App
+  final CustomTheme theme;
 
   /// List of [CustomLayerContainer] implementations
   final List<CustomLayerContainer> customLayers;
-
-  /// Optional extension of Main menu
-  /// By default will be used the [defaultMenuItems]
-  final List<List<MenuItem>> menuItems;
 
   /// List of Map Tile Provider
   /// if the list is [null] or [Empty], [Trufi Core] then will be used [OSMDefaultMapTile]
@@ -119,14 +94,12 @@ class TrufiApp extends StatelessWidget {
   /// [OfflineSearchLocation] that used the assets/data/search.json
   final SearchLocationManager searchLocationManager;
 
-  /// Optional extension for routes
-  /// By default will be used the [routes]
-  final Map<String, WidgetBuilder> routes;
-
   /// Optional extension implement your [customRequestManager]
   /// By default will be used the [OnlineRepository] or [OnlineGraphQLRepository]
   final RequestManager customRequestManager;
+
   final List<SingleChildWidget> providers;
+  final RouteMap trufiRoutes;
   @override
   Widget build(BuildContext context) {
     final sharedPreferencesRepository = SharedPreferencesRepository();
@@ -148,7 +121,7 @@ class TrufiApp extends StatelessWidget {
                   )
                   .languageCode,
             ),
-            configuration.map.center,
+            // configuration.map.center,
           ),
         ),
         BlocProvider<CustomLayersCubit>(
@@ -188,7 +161,7 @@ class TrufiApp extends StatelessWidget {
           create: (context) => LocationProviderCubit(),
         ),
         BlocProvider<ThemeCubit>(
-          create: (context) => ThemeCubit(theme, searchTheme, bottomBarTheme),
+          create: (context) => ThemeCubit(initState: theme),
         ),
         BlocProvider<PayloadDataPlanCubit>(
           create: (context) => PayloadDataPlanCubit(
@@ -200,13 +173,14 @@ class TrufiApp extends StatelessWidget {
         ),
         ...providers,
       ],
-      child: AppLifecycleReactor(
-        child: LocalizedMaterialApp(
-          customHomePage: customHomePage,
-          routes: routes,
-          menuItems: menuItems,
-        ),
-      ),
+      child: LocalizedMaterialApp(trufiRoutes: trufiRoutes),
+      // child: AppLifecycleReactor(
+      //   child: LocalizedMaterialApp(
+      //     customHomePage: customHomePage,
+      //     routes: routes,
+      //     menuItems: menuItems,
+      //   ),
+      // ),
     );
   }
 }
@@ -214,46 +188,29 @@ class TrufiApp extends StatelessWidget {
 class LocalizedMaterialApp extends StatelessWidget {
   const LocalizedMaterialApp({
     Key key,
-    this.customHomePage,
-    this.routes,
-    @required this.menuItems,
+    @required this.trufiRoutes,
   }) : super(key: key);
 
-  final Widget customHomePage;
-  final Map<String, WidgetBuilder> routes;
-  final List<List<MenuItem>> menuItems;
+  final RouteMap trufiRoutes;
+
   @override
   Widget build(BuildContext context) {
-    final routes = <String, WidgetBuilder>{
-      AboutPage.route: (context) => AboutPage(menuItems: menuItems),
-      FeedbackPage.route: (context) => FeedbackPage(menuItems: menuItems),
-      SavedPlacesPage.route: (context) => SavedPlacesPage(menuItems: menuItems),
-      SettingPanel.route: (context) => const SettingPanel(),
-    };
-    routes.addAll(this.routes ?? {});
-
-    return BlocBuilder<PreferencesCubit, PreferenceState>(
-      builder: (BuildContext context, state) {
-        return MaterialApp(
-          locale: Locale.fromSubtags(languageCode: state.languageCode),
-          onGenerateRoute: (settings) {
-            return TrufiDrawerRoute(
-              builder: routes[settings.name],
-              settings: settings,
-            );
-          },
-          localizationsDelegates: const [
-            TrufiLocalization.delegate,
-            GlobalMaterialLocalizations.delegate,
-            QuMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: TrufiLocalization.supportedLocales,
-          theme: context.watch<ThemeCubit>().state.activeTheme,
-          home: customHomePage ?? HomePage(menuItems: menuItems),
-        );
-      },
+    final activeTheme = context.watch<ThemeCubit>().state.activeTheme;
+    return MaterialApp.router(
+      locale: Locale.fromSubtags(
+        languageCode: context.watch<PreferencesCubit>().state.languageCode,
+      ),
+      localizationsDelegates: const [
+        TrufiLocalization.delegate,
+        GlobalMaterialLocalizations.delegate,
+        QuMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: TrufiLocalization.supportedLocales,
+      theme: activeTheme ?? ThemeData(),
+      routerDelegate: RoutemasterDelegate(routesBuilder: (_) => trufiRoutes),
+      routeInformationParser: const RoutemasterParser(),
     );
   }
 }

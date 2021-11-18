@@ -9,25 +9,20 @@ import 'package:trufi_core/blocs/home_page_cubit.dart';
 import 'package:trufi_core/blocs/payload_data_plan/payload_data_plan_cubit.dart';
 import 'package:trufi_core/blocs/preferences/preferences_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
-import 'package:trufi_core/models/enums/server_type.dart';
 import 'package:trufi_core/models/menu/menu_item.dart';
 import 'package:trufi_core/pages/home/plan_map/plan.dart';
 import 'package:trufi_core/pages/home/plan_map/plan_empty.dart';
 import 'package:trufi_core/widgets/fetch_error_handler.dart';
 
-import '../../keys.dart' as keys;
 import '../../models/trufi_place.dart';
 import '../../widgets/trufi_drawer.dart';
 import 'form_fields_landscape.dart';
 import 'form_fields_portrait.dart';
 
 class HomePage extends StatelessWidget {
-  static const String route = '/';
+  static const String route = '/home';
   final List<List<MenuItem>> menuItems;
-  const HomePage(
-      {Key key,
-      @required this.menuItems})
-      : super(key: key);
+  const HomePage({Key key, @required this.menuItems}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +33,13 @@ class HomePage extends StatelessWidget {
     final homePageCubit = context.watch<HomePageCubit>();
     final payloadDataPlanCubit = context.read<PayloadDataPlanCubit>();
     final homePageState = homePageCubit.state;
-    final isGraphQlEndpoint = config.serverType == ServerType.graphQLServer;
+    const isGraphQlEndpoint = false;
     final transportSelectionHeight =
         homePageState.hasTransportModes || homePageState.isFetchingModes
             ? 50 * MediaQuery.of(context).textScaleFactor
             : 0;
     return Scaffold(
-      key: const ValueKey(keys.homePage),
+      key: const ValueKey(route),
       appBar: AppBar(
         bottom: PreferredSize(
           preferredSize: isPortrait
@@ -111,7 +106,7 @@ class HomePage extends StatelessWidget {
             Positioned.fill(child: config.animations.loading)
         ],
       ),
-      drawer:  TrufiDrawer(
+      drawer: TrufiDrawer(
         HomePage.route,
         menuItems: menuItems,
       ),
@@ -122,16 +117,11 @@ class HomePage extends StatelessWidget {
     final TrufiLocalization localization = TrufiLocalization.of(context);
     final homePageCubit = context.read<HomePageCubit>();
     final appReviewCubit = context.read<AppReviewCubit>();
-    final payloadDataPlanCubit = context.read<PayloadDataPlanCubit>();
     final correlationId = context.read<PreferencesCubit>().state.correlationId;
-    final config = context.read<ConfigurationCubit>().state;
     await homePageCubit
         .fetchPlan(
           correlationId,
           localization,
-          advancedOptions: config.serverType == ServerType.defaultServer
-              ? null
-              : payloadDataPlanCubit.state,
           fetchModes: true,
         )
         .then((value) => appReviewCubit.incrementReviewWorthyActions())

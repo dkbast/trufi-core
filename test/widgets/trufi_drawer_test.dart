@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:mockito/mockito.dart';
 import 'package:trufi_core/blocs/configuration/configuration.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
@@ -22,7 +21,6 @@ void main() {
             BlocProvider<PreferencesCubit>(
               create: (context) => PreferencesCubit(
                 const PreferenceState(languageCode: "en"),
-                LatLng(0, 0),
               ),
             ),
             BlocProvider<ConfigurationCubit>(
@@ -61,7 +59,6 @@ void main() {
           BlocProvider<PreferencesCubit>(
             create: (context) => PreferencesCubit(
               const PreferenceState(languageCode: 'de'),
-              LatLng(0, 0),
             ),
           ),
           BlocProvider<ConfigurationCubit>(

@@ -9,10 +9,12 @@ class TrufiDrawer extends StatefulWidget {
     this.currentRoute, {
     Key key,
     @required this.menuItems,
+    this.backgroundImage = "assets/images/drawer-bg.jpg",
   }) : super(key: key);
 
   final String currentRoute;
   final List<List<MenuItem>> menuItems;
+  final String backgroundImage;
   @override
   TrufiDrawerState createState() => TrufiDrawerState();
 }
@@ -25,11 +27,7 @@ class TrufiDrawerState extends State<TrufiDrawer> {
   @override
   void initState() {
     super.initState();
-
-    // TODO: Should have some kind of fallback image
-    bgImage = AssetImage(
-      context.read<ConfigurationCubit>().state.drawerBackgroundAssetPath,
-    );
+    bgImage = AssetImage(widget.backgroundImage);
   }
 
   @override
@@ -45,9 +43,6 @@ class TrufiDrawerState extends State<TrufiDrawer> {
     final localization = TrufiLocalization.of(context);
     final config = context.read<ConfigurationCubit>().state;
     final currentLocale = Localizations.localeOf(context);
-    // final preferencesCubit = context.read<PreferencesCubit>();
-    // final menuItems = widget.menuItems;
-    // final weatherInfo = preferencesCubit.state.weatherInfo;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -93,22 +88,6 @@ class TrufiDrawerState extends State<TrufiDrawer> {
                         ],
                       ),
                     ),
-                    // if (config.showWeather && weatherInfo != null)
-                    //   Row(
-                    //     mainAxisAlignment: MainAxisAlignment.end,
-                    //     children: [
-                    //       SvgPicture.asset(
-                    //         "assets/images/weather/${weatherInfo.weatherSymbol.split(".")[0]}.svg",
-                    //         package: "trufi_core",
-                    //         width: 25.0,
-                    //       ),
-                    //       const SizedBox(width: 8),
-                    //       Text(
-                    //         "${weatherInfo.temperature} °C",
-                    //         style: theme.primaryTextTheme.overline,
-                    //       ),
-                    //     ],
-                    //   )
                   ],
                 ),
               ],

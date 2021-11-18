@@ -1,22 +1,27 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trufi_core/models/theme_state.dart';
 
-class ThemeCubit extends Cubit<ThemeState> {
-  ThemeCubit(
+class CustomTheme extends Equatable {
+  final ThemeData activeTheme;
+  final ThemeData searchTheme;
+  final ThemeData bottomBarTheme;
+
+  CustomTheme({
     ThemeData activeTheme,
     ThemeData searchTheme,
     ThemeData bottomBarTheme,
-  ) : super(
-          ThemeState(
-            activeTheme: activeTheme,
-            searchTheme: searchTheme ?? getDefaultSearchTheme(activeTheme),
-            bottomBarTheme:
-                bottomBarTheme ?? getDefaultBottomBarTheme(activeTheme),
-          ),
-        );
-
-  static ThemeData getDefaultSearchTheme(ThemeData activeTheme) {
+  })  : activeTheme = activeTheme ?? ThemeData(),
+        searchTheme = searchTheme ??
+            getDefaultSearchTheme(
+              activeTheme ?? ThemeData(),
+            ),
+        bottomBarTheme = bottomBarTheme ??
+            getDefaultBottomBarTheme(
+              activeTheme ?? ThemeData(),
+            );
+  static ThemeData getDefaultSearchTheme(
+    ThemeData activeTheme,
+  ) {
     return activeTheme.copyWith(
       primaryColor: Colors.white,
       primaryColorBrightness: Brightness.light,
@@ -51,4 +56,11 @@ class ThemeCubit extends Cubit<ThemeState> {
       ),
     );
   }
+
+  @override
+  List<Object> get props => [activeTheme, searchTheme, bottomBarTheme];
+
+  @override
+  String toString() =>
+      "ThemeState: {activeTheme $activeTheme, searchTheme $searchTheme}, bottomBarTheme $bottomBarTheme}";
 }

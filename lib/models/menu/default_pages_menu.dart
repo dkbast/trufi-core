@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
 import 'package:trufi_core/l10n/trufi_localization.dart';
 import 'package:trufi_core/models/menu/menu_item.dart';
@@ -26,10 +28,13 @@ class MenuPageItem extends MenuItem {
             );
           },
           onClick: (context, isSelected) {
-            Navigator.popUntil(context, ModalRoute.withName(id));
-            if (!isSelected) {
-              Navigator.pushNamed(context, id);
-            }
+
+            Navigator.pop(context);
+            Routemaster.of(context).push(id);
+            // Navigator.popUntil(context, ModalRoute.withName(id));
+            // if (!isSelected) {
+            //   Navigator.pushNamed(context, id);
+            // }
           },
         );
 }

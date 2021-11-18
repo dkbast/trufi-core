@@ -6,7 +6,7 @@ import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
 import 'package:trufi_core/blocs/place_search/place_search_cubit.dart';
 import 'package:trufi_core/blocs/preferences/preferences_cubit.dart';
 import 'package:trufi_core/blocs/search_locations/search_locations_cubit.dart';
-import 'package:trufi_core/blocs/theme_bloc.dart';
+import 'package:trufi_core/blocs/theme/theme_bloc.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
 import 'package:trufi_core/repository/exception/fetch_online_exception.dart';
 import 'package:trufi_core/utils/util_icons/icons.dart';

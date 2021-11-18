@@ -4,12 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
 import 'package:trufi_core/blocs/home_page_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
-import 'package:trufi_core/models/enums/server_type.dart';
-
 import '../../models/trufi_place.dart';
 import 'home_buttons.dart';
 import 'search_location/location_form_field.dart';
-import 'setting_payload/setting_payload.dart';
 import 'transport_selector/transport_selector.dart';
 
 class FormFieldsPortrait extends StatelessWidget {
@@ -66,8 +63,6 @@ class FormFieldsPortrait extends StatelessWidget {
                       : null,
                   value: homePageState.toPlace,
                 ),
-                if (config.serverType == ServerType.graphQLServer)
-                  SettingPayload(onFetchPlan: onFetchPlan),
               ],
             ),
           ),

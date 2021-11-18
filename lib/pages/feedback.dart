@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
 import 'package:trufi_core/models/definition_feedback.dart';
 import 'package:trufi_core/models/menu/menu_item.dart';
@@ -11,14 +9,15 @@ import '../widgets/trufi_drawer.dart';
 class FeedbackPage extends StatelessWidget {
   static const String route = "/feedback";
 
-  const FeedbackPage({Key key, @required this.menuItems}) : super(key: key);
+  const FeedbackPage(
+      {Key key, @required this.menuItems, @required this.feedBack})
+      : super(key: key);
   final List<List<MenuItem>> menuItems;
+  final FeedbackDefinition feedBack;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localization = TrufiLocalization.of(context);
-    final feedBack =
-        context.read<ConfigurationCubit>().state.feedbackDefinition;
     return Scaffold(
       appBar: AppBar(title: Text(localization.menuFeedback)),
       body: Scrollbar(

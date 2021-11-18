@@ -4,13 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trufi_core/blocs/configuration/configuration_cubit.dart';
 import 'package:trufi_core/blocs/home_page_cubit.dart';
 import 'package:trufi_core/l10n/trufi_localization.dart';
-import 'package:trufi_core/models/enums/server_type.dart';
 import 'package:trufi_core/pages/home/transport_selector/transport_selector.dart';
 
 import '../../models/trufi_place.dart';
 import 'home_buttons.dart';
 import 'search_location/location_form_field.dart';
-import 'setting_payload/setting_payload.dart';
 
 class FormFieldsLandscape extends StatelessWidget {
   const FormFieldsLandscape({
@@ -83,10 +81,6 @@ class FormFieldsLandscape extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (config.serverType == ServerType.graphQLServer)
-                    SettingPayload(
-                      onFetchPlan: onFetchPlan,
-                    ),
                 ],
               ),
             ),

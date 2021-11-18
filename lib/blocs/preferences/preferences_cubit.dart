@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:trufi_core/blocs/preferences/preferences.dart';
 import 'package:trufi_core/repository/entities/weather_info.dart';
 import 'package:trufi_core/repository/local_repository.dart';
@@ -10,9 +9,8 @@ import 'package:uuid/uuid.dart';
 
 class PreferencesCubit extends Cubit<PreferenceState> {
   LocalRepository localRepository = SharedPreferencesRepository();
-  final LatLng currentLocation;
 
-  PreferencesCubit(PreferenceState initState, this.currentLocation)
+  PreferencesCubit(PreferenceState initState)
       : super(initState) {
     _load();
   }
