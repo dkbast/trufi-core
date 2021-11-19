@@ -69,7 +69,7 @@ class TrufiApp extends StatelessWidget {
     this.customLayers = const [],
     this.mapTileProviders,
     this.searchLocationManager,
-    @required this.customRequestManager,
+    this.customRequestManager,
     this.providers = const [],
     @required this.trufiRoutes,
     this.theme,
@@ -153,7 +153,10 @@ class TrufiApp extends StatelessWidget {
           create: (context) {
             return HomePageCubit(
               sharedPreferencesRepository,
-              customRequestManager,
+              customRequestManager ??
+                  OnlineGraphQLRepository(
+                    graphQLEndPoint: configuration.urls.openTripPlannerUrl,
+                  ),
             );
           },
         ),
